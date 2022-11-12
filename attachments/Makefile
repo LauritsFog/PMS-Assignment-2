@@ -1,5 +1,5 @@
 CC=gcc
-CPPFLAGS=-Imsptools/include/
+CPPFLAGS=
 CFLAGS=-Wall -std=c99
 LDFLAGS=-Lmsptools/lib -L.
 LDLIBS=-lmsptools -llapack -lblas -lm
@@ -12,20 +12,15 @@ LDLIBS=-lmsptools -llapack -lblas -lm
 
 # ifeq ($(shell uname), Darwin)
 # 	# Link against system default BLAS/LAPACK library on macOS
-# 	LDLIBS=-lmsptools -llapack -lblas -lm 
+# 	LDLIBS=-lmsptools -llapack -lblas -lm
 # endif
 
-.PHONY: all msptools clean deepclean
+all: test
 
-all: msptools solve
-
-solve: call_dgesv.o
-
-msptools:
-	make --directory=msptools
+test: LDLIBS=-llapack -lm
+test: LDLIBS=-llapack -lm
 
 clean:
-	-$(RM) *.o lssolve
-
-deepclean: clean
-	make --directory=msptools clean
+	-$(RM) *.o
+	-$(RM) test
+	-$(RM) test
