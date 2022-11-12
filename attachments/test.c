@@ -75,23 +75,6 @@ int call_dgesv(array2d_t * A, array_t * b){
     int nrhs = 1, ldb=m, lda=m, info;
     int ipiv[n];
     
-    /*
-    printf("Dimensioner er: %d og %d\n", m, n);
-    printf("ldb: %d\n", ldb);
-    printf("lda: %d\n", ldb);
-
-    printf("A matrix er på formen:\n");
-    for (size_t i = 0; i < m*n; i++)
-    {
-        printf("%f \n", A->val[i]);
-    }
-    
-
-    printf("b vector er på formen:\n");
-    array_print(b);
-    */
-
-
     if (A->order == ColMajor){
         dgesv_( &m, &nrhs, A->val, &lda, ipiv, b->val, &ldb, &info );
     } else{
