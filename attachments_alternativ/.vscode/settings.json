@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "datatypes.h": "c",
+        "call_dgesv.h": "c",
+        "msptools.h": "c"
+    }
+}
