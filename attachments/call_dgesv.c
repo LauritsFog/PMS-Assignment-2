@@ -1,3 +1,4 @@
+#include "call_dgesv.h"
 #include "datatypes.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -15,12 +16,17 @@ void dgesv_(int *n,    /* columns/rows in A          */
 
 // function for solving the linear system
 int call_dgesv(array2d_t * A, array_t * b) {
+<<<<<<< HEAD
  
   // checks if both Matrix A and vector b, are not empty
+=======
+
+>>>>>>> 1f75698a3d6955cde18b939167ca905246644155
   if (A == NULL || b == NULL){
     return -9;
   }
 
+<<<<<<< HEAD
   // checks if the Matrix A is square
   if (A->shape[0] != A->shape[1]){
     return -10;
@@ -37,6 +43,21 @@ int call_dgesv(array2d_t * A, array_t * b) {
   int ipiv[n];
     
 
+=======
+  if (A->shape[0] != A->shape[1])
+  {
+    return -10;
+  }
+
+  if (A->shape[0] != b->len)
+  {
+    return -11;
+  }
+
+  int m = (int) A->shape[0], n = (int) A->shape[1];
+    int nrhs = 1, ldb=m, lda=m, info;
+    int ipiv[n];
+>>>>>>> 1f75698a3d6955cde18b939167ca905246644155
 
     if (A->order == ColMajor){
         // dgesv assumes colmajor we do nothing to the values of A and calls the fundtion
@@ -52,19 +73,27 @@ int call_dgesv(array2d_t * A, array_t * b) {
         }
         int k = 0;
 
+<<<<<<< HEAD
         // Rearranges the values of A so its on Colmajor
+=======
+
+>>>>>>> 1f75698a3d6955cde18b939167ca905246644155
         for (size_t i = 0; i < n; i++){
-            
+
             for (size_t j = 0; j < n; j++)
             {
                A->val[k] = xrow[i+n*j];
                k = k+1;
             }
         }
+<<<<<<< HEAD
         
         // call the function
+=======
+
+>>>>>>> 1f75698a3d6955cde18b939167ca905246644155
         dgesv_( &m, &nrhs, A->val, &lda, ipiv, b->val, &ldb, &info );
     }
-    
+
     return info;
 }
