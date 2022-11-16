@@ -18,15 +18,18 @@ int call_dgesv(array2d_t * A, array_t * b);
 
 int main(int argc, char *argv[]) {
 
-  
+    // Checks that theres the correct amount of input variables when calling the script
     if (argc != 4) {
         fprintf(stderr,"Usage: %s A b x\n", argv[0]);
         return EXIT_FAILURE;
     }
 
+    // Saves the first and second input text files as A and b
     array2d_t *A = array2d_from_file(argv[1]);
     array_t *b = array_from_file(argv[2]);
 
+    // Error handeling
+    // (these might be irrelevant since we also do these checks in call_dgesv)
     if (!A) {
         fprintf(stderr,"Error reading file %s\n",argv[1]);
         return EXIT_FAILURE;
@@ -35,30 +38,32 @@ int main(int argc, char *argv[]) {
         fprintf(stderr,"Error reading file %s\n",argv[2]);
         return EXIT_FAILURE;
     }
-
     if (A->shape[0] != A->shape[1]){
          fprintf(stderr,"Error matrix A is not square");
          return EXIT_FAILURE;
     }
-
     if (A->shape[0] != b->len){
         fprintf(stderr,"Error matrix A and vector b not compatible");
         return EXIT_FAILURE;
     }
 
+    // call our function to solve the linear system
     int info = call_dgesv(A, b);
 
+    // check if the problem was solved
     if (info != 0)
     {
+      fprintf(stderr,"Error: system could not be solved");
       return EXIT_FAILURE;
     }
     
+    // Saves the solution to the given text file.
     array_to_file(argv[3], b);
 
   return EXIT_SUCCESS;
 }
 
-
+// Function we made in the previous problem
 int call_dgesv(array2d_t * A, array_t * b) {
  
   if (A == NULL || b == NULL){

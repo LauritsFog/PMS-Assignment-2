@@ -13,37 +13,46 @@ void dgesv_(int *n,    /* columns/rows in A          */
             int *info        /* status code                */
 );
 
-
+// function for solving the linear system
 int call_dgesv(array2d_t * A, array_t * b) {
  
+  // checks if both Matrix A and vector b, are not empty
   if (A == NULL || b == NULL){
     return -9;
   }
 
+  // checks if the Matrix A is square
   if (A->shape[0] != A->shape[1]){
     return -10;
   }
 
+  // Checks if vector b is of the dame dim af matrix A so the problem can be solved
   if (A->shape[0] != b->len){
    return -11;
   }
 
-  int m = (int) A->shape[0], n = (int) A->shape[1];
-    int nrhs = 1, ldb=m, lda=m, info;
-    int ipiv[n];
+  // Initializing 
+  int m = (int) A->shape[0], n = (int) A->shape[1]; 
+  int nrhs = 1, ldb=m, lda=m, info; 
+  int ipiv[n];
     
+
+
     if (A->order == ColMajor){
+        // dgesv assumes colmajor we do nothing to the values of A and calls the fundtion
         dgesv_( &m, &nrhs, A->val, &lda, ipiv, b->val, &ldb, &info );
     } else{
+        // Initializing vector and dim of vector
         int nm = n*m;
         double xrow[nm];
 
+        //saving the values of A in a new vector
         for (size_t i = 0; i < nm; i++){
            xrow[i] = A->val[i];
         }
         int k = 0;
 
-        
+        // Rearranges the values of A so its on Colmajor
         for (size_t i = 0; i < n; i++){
             
             for (size_t j = 0; j < n; j++)
@@ -53,8 +62,8 @@ int call_dgesv(array2d_t * A, array_t * b) {
             }
         }
         
+        // call the function
         dgesv_( &m, &nrhs, A->val, &lda, ipiv, b->val, &ldb, &info );
-
     }
     
     return info;
