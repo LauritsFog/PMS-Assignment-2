@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "datatypes.h"
-#include "call_dgesv.h"
 
 int call_dgesv(array2d_t *A, array_t *b);
 
